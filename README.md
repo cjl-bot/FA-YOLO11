@@ -2,7 +2,17 @@
 
 ## Abstract
 
-FA-YOLO11 is a frequency-aware and illumination-adaptive underwater small object detector built on the YOLO11n framework. It introduces a Frequency-Aware Downsampling (FAD) module based on Haar 2D-DWT to preserve low- and high-frequency sub-band information during downsampling, an Illumination-Adaptive Feature Fusion (IAFF) module to perform spatially varying residual feature recalibration, and WIoU v3 as the bounding-box regression loss during training. The method is evaluated on URPC2020-ZJ and DUO for underwater benthic target detection.
+FA-YOLO11 is a frequency-aware and illumination-adaptive underwater small object detector built on the YOLO11n framework. It is designed for challenging underwater scenes with light attenuation, scattering, blur, non-uniform illumination, and dense occlusion among benthic organisms.
+
+Main features:
+
+- **Frequency-Aware Downsampling (FAD):** uses Haar 2D-DWT to expose low-frequency approximation and high-frequency directional sub-band information before learnable channel compression.
+- **Illumination-Adaptive Feature Fusion (IAFF):** generates a spatial response map from channel-pooled features and applies bounded residual recalibration under uneven underwater illumination.
+- **WIoU v3 training loss:** improves bounding-box localization robustness for blurred, small, and mutually occluded targets.
+- **Underwater benchmarks:** evaluated on URPC2020-ZJ and DUO for holothurian, echinus, scallop, and starfish detection.
+- **Efficiency-oriented design:** improves detection accuracy over YOLO11n while maintaining a compact model size and real-time GPU inference speed.
+
+This repository provides the reference implementation of the proposed modules, model configuration files, training entry points, and benchmarking script used to support the experiments in the paper.
 
 ## Public datasets
 

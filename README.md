@@ -25,6 +25,7 @@ FA-YOLO11/
 │   └── duo.yaml
 ├── models/
 │   ├── __init__.py
+│   ├── INTEGRATION.md
 │   ├── modules.py
 │   └── fa_yolo11.py
 ├── scripts/
@@ -127,7 +128,7 @@ python infer.py \
 
 ## Notes on module integration
 
-The core logic of FAD and IAFF is provided in `models/modules.py`. To run the model directly inside a specific YOLO11 codebase, register `FAD` and `IAFF` in the model parser used by that codebase. The provided `configs/fa_yolo11.yaml` follows the module placement described in the paper:
+The core logic of FAD and IAFF is provided in `models/modules.py`. To run the model directly inside a specific YOLO11 codebase, register `FAD` and `IAFF` in the model parser used by that codebase. Additional parser and loss-integration notes are provided in `models/INTEGRATION.md`. The provided `configs/fa_yolo11.yaml` follows the module placement described in the paper:
 
 - FAD is inserted at the middle backbone downsampling transitions.
 - IAFF is inserted in the neck feature fusion path.

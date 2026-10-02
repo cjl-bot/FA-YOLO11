@@ -35,7 +35,6 @@ FA-YOLO11/
 │   │   └── README.md
 │   └── DUO/
 │       └── README.md
-└── requirements.txt
 ```
 
 ## Datasets

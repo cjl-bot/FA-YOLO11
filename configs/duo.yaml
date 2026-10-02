@@ -2,9 +2,9 @@
 # Replace the paths below with the local dataset root and split-file paths.
 
 path: /path/to/DUO
-train: splits/DUO/train_6671.txt
-val: splits/DUO/test_1111.txt
-test: splits/DUO/test_1111.txt
+train: images/train
+val: images/test
+test: images/test
 
 nc: 4
 names:

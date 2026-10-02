@@ -1,4 +1,4 @@
-"""Core FA-YOLO11 modules.
+"""Core FA-YOLO11 network modules.
 
 This file contains compact PyTorch implementations of the proposed module logic.
 For direct use in a YOLO11 codebase, register FAD and IAFF in the model parser.
@@ -85,35 +85,4 @@ class IAFF(nn.Module):
         residual_gain = self.alpha * torch.exp(-self.gamma * m_illu)
         return x + x * residual_gain
 
-
-class WIoUv3Loss(nn.Module):
-    """Compact placeholder for the WIoU v3 training objective.
-
-    In practice, this loss should be connected to the bounding-box loss branch of
-    the YOLO11 trainer. The class documents the hyperparameters used in the paper:
-    alpha_w = 1.9 and delta_w = 3.0.
-    """
-
-    def __init__(self, alpha_w: float = 1.9, delta_w: float = 3.0, eps: float = 1e-7):
-        super().__init__()
-        self.alpha_w = alpha_w
-        self.delta_w = delta_w
-        self.eps = eps
-
-    @staticmethod
-    def box_iou_xyxy(box1: torch.Tensor, box2: torch.Tensor, eps: float = 1e-7) -> torch.Tensor:
-        lt = torch.max(box1[..., :2], box2[..., :2])
-        rb = torch.min(box1[..., 2:], box2[..., 2:])
-        wh = (rb - lt).clamp(min=0)
-        inter = wh[..., 0] * wh[..., 1]
-        area1 = (box1[..., 2] - box1[..., 0]).clamp(min=0) * (box1[..., 3] - box1[..., 1]).clamp(min=0)
-        area2 = (box2[..., 2] - box2[..., 0]).clamp(min=0) * (box2[..., 3] - box2[..., 1]).clamp(min=0)
-        return inter / (area1 + area2 - inter + eps)
-
-    def forward(self, pred_boxes: torch.Tensor, target_boxes: torch.Tensor) -> torch.Tensor:
-        iou = self.box_iou_xyxy(pred_boxes, target_boxes, self.eps)
-        base_loss = 1.0 - iou
-        beta = base_loss.detach() / (base_loss.detach().mean() + self.eps)
-        focusing = beta / (self.delta_w * torch.pow(self.alpha_w, beta - self.delta_w) + self.eps)
-        return (focusing * base_loss).mean()
 

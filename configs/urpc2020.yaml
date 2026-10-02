@@ -2,9 +2,9 @@
 # Replace the paths below with the local dataset root and split-file paths.
 
 path: /path/to/URPC2020-ZJ
-train: splits/URPC2020/train_5543.txt
-val: splits/URPC2020/val_testB_1200.txt
-test: splits/URPC2020/testA_800.txt
+train: train/images
+val: valid/images
+test: test/images
 
 nc: 4
 names:

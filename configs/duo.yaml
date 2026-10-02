@@ -1,0 +1,15 @@
+# DUO dataset configuration.
+# Replace the paths below with the local dataset root and split-file paths.
+
+path: /path/to/DUO
+train: splits/DUO/train_6671.txt
+val: splits/DUO/test_1111.txt
+test: splits/DUO/test_1111.txt
+
+nc: 4
+names:
+  0: holothurian
+  1: echinus
+  2: scallop
+  3: starfish
+

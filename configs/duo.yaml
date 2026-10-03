@@ -1,9 +1,13 @@
 # DUO dataset configuration.
-# Replace the paths below with the local dataset root and split-file paths.
+# Replace the path below with the local dataset root after downloading the public dataset.
+# DUO has no official validation subset in the 7,782-image benchmark. The paper
+# does not use test annotations for model selection. In train.py, DUO training is
+# automatically run with val=False and the final EMA/last checkpoint is evaluated
+# once on the test split.
 
 path: /path/to/DUO
 train: images/train
-val: images/test
+val: images/train  # schema placeholder only; not used when training with train.py
 test: images/test
 
 nc: 4

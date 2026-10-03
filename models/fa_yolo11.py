@@ -8,12 +8,13 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from .ultralytics_integration import prepare_fa_yolo11_ultralytics
+
 
 def build_model(config_path: str | Path):
     """Build an FA-YOLO11 model from a YOLO-style YAML file.
 
-    The local YOLO11 implementation must register the custom modules FAD and IAFF
-    before parsing `configs/fa_yolo11.yaml`.
+    The helper registers FAD/IAFF and patches WIoU v3 before parsing the YAML.
     """
 
     try:
@@ -21,5 +22,6 @@ def build_model(config_path: str | Path):
     except ImportError as exc:
         raise ImportError("Please install ultralytics or use a YOLO11-compatible codebase.") from exc
 
+    prepare_fa_yolo11_ultralytics(use_wiou=True)
     return YOLO(str(config_path))
 

@@ -1,27 +1,28 @@
 # FA-YOLO11 model configuration.
-# This file documents the module placement used in the paper.
-# Direct execution may require registering FAD and IAFF in the local YOLO11 model parser.
+# FAD replaces all four post-stem stride-2 downsampling transitions.
+# Run train.py/build_model so FAD, IAFF, and WIoU v3 are registered before parsing.
 
 nc: 4
 depth_multiple: 0.33
 width_multiple: 0.25
 
-# Backbone: FAD replaces the selected middle stride-2 downsampling transitions.
+# Backbone: the initial P1/2 stem is unchanged; P2/4, P3/8, P4/16, and P5/32
+# transitions are replaced by FAD.
 backbone:
   # [from, repeats, module, args]
   - [-1, 1, Conv, [64, 3, 2]]        # P1/2, unchanged stem
-  - [-1, 1, Conv, [128, 3, 2]]       # P2/4, unchanged downsampling
+  - [-1, 1, FAD, [128]]              # P2/4 frequency-aware downsampling
   - [-1, 2, C3k2, [128]]
   - [-1, 1, FAD, [256]]              # P3/8 frequency-aware downsampling
   - [-1, 2, C3k2, [256]]
   - [-1, 1, FAD, [512]]              # P4/16 frequency-aware downsampling
   - [-1, 2, C3k2, [512]]
-  - [-1, 1, Conv, [1024, 3, 2]]      # P5/32, unchanged downsampling
+  - [-1, 1, FAD, [1024]]             # P5/32 frequency-aware downsampling
   - [-1, 2, C3k2, [1024]]
   - [-1, 1, SPPF, [1024, 5]]
   - [-1, 1, C2PSA, [1024]]
 
-# Neck: IAFF is inserted around multi-scale feature fusion.
+# Neck: IAFF uses channel-pooled spatial descriptors and the deformable mask branch.
 head:
   - [-1, 1, Upsample, [None, 2, nearest]]
   - [-1, 1, IAFF, [0.5, 2.0]]

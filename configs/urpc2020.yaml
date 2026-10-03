@@ -1,10 +1,14 @@
 # URPC2020-ZJ dataset configuration.
-# Replace the paths below with the local dataset root and split-file paths.
+# Replace the path below with the local dataset root after downloading the public dataset.
+# Protocol used in the paper:
+#   train  -> public train subset
+#   val    -> public test-B subset for validation/model selection
+#   test   -> public test-A subset for final testing
 
 path: /path/to/URPC2020-ZJ
 train: train/images
-val: valid/images
-test: test/images
+val: test-B/images
+test: test-A/images
 
 nc: 4
 names:

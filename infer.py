@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import argparse
 
+from models.ultralytics_integration import register_fa_yolo11_modules
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Run FA-YOLO11 inference.")
@@ -20,6 +22,8 @@ def main():
         from ultralytics import YOLO
     except ImportError as exc:
         raise SystemExit("Ultralytics is required for this inference entry point.") from exc
+
+    register_fa_yolo11_modules()
 
     model = YOLO(args.weights)
     model.predict(
